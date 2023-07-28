@@ -1,0 +1,8 @@
+@media (min-width: 992px) {
+  body[data-layout-mode="horizontal"] .content-page {
+    padding: 0px 15px 65px 15px;
+  }
+}
+.content-page {
+  margin-top: 10px !important;
+}

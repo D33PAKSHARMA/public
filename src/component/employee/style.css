@@ -1,0 +1,16 @@
+@media (max-width: 720px) {
+  .scroll-x ul {
+    overflow-x: scroll !important;
+  }
+}
+
+/* Department */
+@media (max-width: 770px) {
+  .pop_down {
+    width: 120px !important;
+    padding: 2px;
+  }
+  .marginLeft {
+    margin-left: 2px !important;
+  }
+}

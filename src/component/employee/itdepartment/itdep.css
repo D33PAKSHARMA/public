@@ -1,0 +1,14 @@
+/* ItDepartmentTask */
+@media (max-width: 1000px) {
+  .btn_btn {
+    width: 119px !important;
+    margin: 1px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .btn-btn {
+    width: 70px !important;
+    margin-bottom: 3px !important;
+  }
+}

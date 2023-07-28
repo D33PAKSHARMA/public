@@ -1,0 +1,38 @@
+#content-page-Overview {
+  padding: 0px 0px 60px 3px !important;
+  margin-left: 180px !important;
+}
+
+.color_change {
+  background: #252b3b !important;
+}
+
+.flex_flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.heading-top {
+  margin-left: 80px !important;
+  margin-top: 20px !important;
+  font-weight: 600;
+}
+
+.row_row {
+  height: 300px !important;
+  width: 1200px;
+}
+
+#tooltip-container-xx {
+  border-radius: 20px !important;
+}
+
+.header-title {
+  font-weight: 500;
+}
+
+.btn-btn {
+  margin-right: 100px;
+  width: 120px;
+  border-radius: 5px;
+}
