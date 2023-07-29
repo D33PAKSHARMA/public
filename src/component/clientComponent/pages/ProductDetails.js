@@ -27,7 +27,7 @@ const ProductDetails = () => {
         const response = await authAxios?.get(
           `api/product_detail/${params._id}`
         );
-        // console.log(response.data);
+        console.log(response.data);
         setProduct(response.data.data);
       } catch (error) {
         console.log(error);

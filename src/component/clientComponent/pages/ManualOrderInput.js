@@ -4,6 +4,7 @@ import Leftbar from "../component/Leftbar";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import "./client.css";
 
 const token = localStorage.getItem("data");
 const authAxios = axios.create({
@@ -50,6 +51,7 @@ const ManualOrderInput = () => {
   const getID = (e) => {
     e.preventDefault();
     const _id = e.target.value;
+    console.log(id); // console
     setId(_id);
   };
 
@@ -67,6 +69,13 @@ const ManualOrderInput = () => {
     }
   }, [id]);
   // console.log(details);
+
+  // const { user_details } = details;
+  // // console.log(user_details);
+
+  // const address = user_details?.filter((item) => item.address === "address");
+
+  // console.log(address);
 
   //.....................................all_client_customers.........................................
   const [customer, setCustomer] = useState([]);
@@ -89,10 +98,9 @@ const ManualOrderInput = () => {
   // .................................create_client_manual_order......................................
 
   const [name, setName] = useState("");
+  const [number, setNumber] = useState("");
   console.log(name);
   const [order, setOrder] = useState({
-    customer_id: "",
-    customer_mobile: "",
     customer_address: "",
     total_order_price: "",
     gst: "",
@@ -104,31 +112,104 @@ const ManualOrderInput = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(order);
+    console.table(order);
+    console.log(details._id);
+    console.log(details.first_name);
+    console.log(details.phone);
 
-    // try {
-    //   const res = await authAxios.post("/api/create_client_manual_order", {
-    //     customer_id: order.customer_id,
-    //     customer_name: name,
-    //     customer_mobile: order.customer_mobile,
-    //     customer_address: order.customer_address,
-    //     total_order_price: order.total_order_price,
-    //     gst: order.gst,
-    //     discount: order.discount,
-    //     shipping_charges: order.shipping_charges,
-    //     grand_total: order.grand_total,
-    //     orderItems: order.orderItems,
-    //   });
-    //   if (res.data.status_code === 200) {
-    //     toast.success(res.data.message);
-    //   } else {
-    //     toast.error(res.data.message);
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const res = await authAxios.post("/api/create_client_manual_order", {
+        customer_id: details._id,
+        customer_name: details.first_name,
+        customer_mobile: details.phone,
+        customer_address: order.customer_address,
+        total_order_price: order.total_order_price,
+        gst: order.gst,
+        discount: order.discount,
+        shipping_charges: order.shipping_charges,
+        grand_total: order.grand_total,
+        orderItems: order.orderItems,
+      });
+      if (res.data.status_code === 200) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  // .......................................CLient All Manual Orders.......................................
+
+  const [all, setAll] = useState([]);
+  useEffect(() => {
+    const getAll = async () => {
+      try {
+        const { data } = await authAxios.get("/api/client_all_manual_orders");
+        setAll(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAll();
+  }, []);
+  // console.log(all);
+
+  // .........................................Get ALl Products.........................................
+
+  const [product, setProduct] = useState([]);
+  useEffect(() => {
+    const getAll = async () => {
+      try {
+        const { data } = await authAxios.get("/api/all_products");
+        setProduct(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAll();
+  }, []);
+  // console.log(product);
+
+  // ...................................Get Single Product Details...................................
+  const [singleproduct, setSingleProduct] = useState([]);
+  const [singleId, setSingleId] = useState("");
+
+  const [showTbody, setShowTbody] = useState(false);
+
+  const getSigleProductId = (e) => {
+    e.preventDefault();
+    const singleid = e.target.value;
+    // console.log(singleid); // console
+    setSingleId(singleid);
+  };
+
+  useEffect(() => {
+    if (singleId) {
+      const getAllInventory = async () => {
+        try {
+          const response = await authAxios?.get(
+            `api/product_detail/${singleId}`
+          );
+          // console.log(response.data);
+          setSingleProduct(response.data.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      getAllInventory();
+      setShowTbody(true);
+    }
+  }, [singleId]);
+  console.log(singleproduct);
+
+  const handleDelete = (e) => {
+    e.preventDefault();
+    setShowTbody(false);
+  };
+
+  // .............................Open new form for creating new Customer.............................
   const openTab = () => {
     const form = document.querySelector(".form-2");
     form.style.display = "block";
@@ -178,39 +259,41 @@ const ManualOrderInput = () => {
                               <th>Action</th>
                             </tr>
                           </thead>
-                          <tbody>
-                            <tr>
-                              <td>1.</td>
-                              <td>
-                                <h5 className="text-primary bold">#100185</h5>
-                              </td>
-                              <td>
-                                11 Jun 2023,
-                                <br />
-                                08:20 AM
-                              </td>
-                              <td>
-                                Ram Kumar <br />
-                                3239232323
-                              </td>
-                              <td>
-                                $100.0
-                                <br />
-                                <span className="text-success">Paid</span>
-                              </td>
-                              <td width="120px">
-                                <Link
-                                  to="/client/orders/manual-order-input/order-details"
-                                  className="btn btn-primary btn-sm"
-                                >
-                                  <span className="mdi mdi-eye" />
-                                </Link>
-                                <button className="btn btn-primary btn-sm ml_2">
-                                  <span className="mdi mdi-download" />
-                                </button>
-                              </td>
-                            </tr>
-                          </tbody>
+                          {all?.map((item, count) => {
+                            return (
+                              <tbody>
+                                <tr>
+                                  <td>{++count}</td>
+                                  <td>
+                                    <h5 className="text-primary bold">
+                                      {item._id}
+                                    </h5>
+                                  </td>
+                                  <td>{item.created_at} AM</td>
+                                  <td>
+                                    {item.customer_name} <br />
+                                    {item.customer_mobile}
+                                  </td>
+                                  <td>
+                                    ${item.grand_total}
+                                    <br />
+                                    <span className="text-success">Paid</span>
+                                  </td>
+                                  <td width="120px">
+                                    <Link
+                                      to={`/client/orders/manual-order-input/order-details/${item._id}`}
+                                      className="btn btn-primary btn-sm"
+                                    >
+                                      <span className="mdi mdi-eye" />
+                                    </Link>
+                                    <button className="btn btn-primary btn-sm ml_2">
+                                      <span className="mdi mdi-download" />
+                                    </button>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            );
+                          })}
                         </table>
                       </div>
                     </div>
@@ -321,9 +404,8 @@ const ManualOrderInput = () => {
                       className="form-control"
                       placeholder="Enter Customer Name..."
                       name="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      onClick={(e) => getID(e)}
+                      // value={name}
+                      onChange={(e) => getID(e)}
                     >
                       {customer?.map((cust) => {
                         return (
@@ -351,11 +433,9 @@ const ManualOrderInput = () => {
                     type="number"
                     className="form-control"
                     placeholder="Enter Mobile Number..."
-                    name="customer_mobile"
-                    value={order.customer_mobile}
-                    onChange={(e) =>
-                      setOrder({ ...order, customer_mobile: e.target.value })
-                    }
+                    name="number"
+                    value={details.phone}
+                    onChange={(e) => setNumber(e.target.value)}
                   />
                 </div>
                 <div className="mb-2 col-lg-6">
@@ -375,17 +455,18 @@ const ManualOrderInput = () => {
                 </div>
                 <div className="col-lg-11 mx-auto border">
                   <div className="mb-2 mt-3">
-                    <select className="form-select">
+                    <select
+                      className="form-select"
+                      onChange={(e) => getSigleProductId(e)}
+                    >
                       <option value>Select Product</option>
-                      <option value="iPhone 9">iPhone 9</option>
-                      <option value="iPhone X">iPhone X</option>
-                      <option value="Huawei P30">Huawei P30</option>
-                      <option value="HP Pavilion 15-DK1056WM">
-                        HP Pavilion 15-DK1056WM
-                      </option>
-                      <option value="Fog Scent Xpressio Perfume">
-                        Fog Scent Xpressio Perfume
-                      </option>
+                      {product?.map((item) => {
+                        return (
+                          <option key={item._id} value={item._id}>
+                            {item.name}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                   <div className="table-responsive">
@@ -400,44 +481,34 @@ const ManualOrderInput = () => {
                           <th width="60px">Remove</th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td>1. </td>
-                          <td>iPhone 9</td>
-                          <td>
-                            <input
-                              type="number"
-                              className="form-control"
-                              defaultValue={2}
-                            />
-                          </td>
-                          <td>$500.44 </td>
-                          <td>$1,000.88 </td>
-                          <td className="text-center">
-                            <a href className="text-danger">
-                              <span className="mdi mdi-trash-can-outline mdi-24px" />
-                            </a>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2. </td>
-                          <td>Huawei P30</td>
-                          <td>
-                            <input
-                              type="number"
-                              className="form-control"
-                              defaultValue={2}
-                            />
-                          </td>
-                          <td>$500.44 </td>
-                          <td>$1,000.88 </td>
-                          <td className="text-center">
-                            <a href className="text-danger">
-                              <span className="mdi mdi-trash-can-outline mdi-24px" />
-                            </a>
-                          </td>
-                        </tr>
-                      </tbody>
+                      {/* ............... tbody,.............................. */}
+                      {showTbody && (
+                        <tbody>
+                          <tr>
+                            <td>1. </td>
+                            <td>{singleproduct.name}</td>
+                            <td>
+                              <input
+                                type="number"
+                                className="form-control"
+                                defaultValue={singleproduct.capacity}
+                              />
+                            </td>
+                            <td>${singleproduct.cost}</td>
+                            <td>
+                              ${singleproduct.capacity * singleproduct.cost}
+                            </td>
+                            <td className="text-center">
+                              <a href className="text-danger">
+                                <span
+                                  className="mdi mdi-trash-can-outline mdi-24px pe-auto delete_button"
+                                  onClick={handleDelete}
+                                />
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      )}
                     </table>
                   </div>
                   <div className="table-responsive">

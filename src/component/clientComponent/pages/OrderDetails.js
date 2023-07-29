@@ -1,9 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import Leftbar from "../component/Leftbar";
 import "./client.css";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import "./client.css";
+
+const token = localStorage.getItem("data");
+const authAxios = axios.create({
+  baseURL: "http://localhost:3004",
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+});
 
 const OrderDetails = () => {
+  const params = useParams();
+
+  const [details, setDetails] = useState([]);
+  useEffect(() => {
+    const getAll = async () => {
+      try {
+        const { data } = await authAxios.get(
+          `/api/client_customer_manual_order_detail/${params._id}`
+        );
+        setDetails(data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAll();
+  }, []);
+  console.log(details);
+
   return (
     <div>
       <div id="wrapper">
@@ -24,14 +53,14 @@ const OrderDetails = () => {
                     <div className="card-body">
                       <div className="row mb-2">
                         <div className="col-lg-7">
-                          <h5>Order ID #100185</h5>
+                          <h5>Order ID {details._id}</h5>
                         </div>
                         <div className="col-lg-5 text-end">
                           <button
                             type="button"
                             className="btn btn-primary waves-effect waves-light"
                           >
-                            <span className="btn-label">
+                            <span className="btn-label ">
                               <i className="mdi mdi-printer" />
                             </span>
                             Print Invoice
@@ -42,7 +71,7 @@ const OrderDetails = () => {
                             data-bs-toggle="modal"
                             data-bs-target="#cancel-order-model"
                           >
-                            <span className="btn-label">
+                            <span className="btn-label ">
                               <i className="mdi mdi-cart-remove" />
                             </span>
                             Cancel Order
@@ -51,7 +80,7 @@ const OrderDetails = () => {
                         <div className="col-lg-9">
                           <p>
                             <span className="mdi mdi-calendar-month-outline" />{" "}
-                            5 Jun 2023 08:20:39
+                            {details.created_at}
                           </p>
                         </div>
                         <div className="col-lg-3 text-end">
@@ -86,11 +115,11 @@ const OrderDetails = () => {
                           <tbody>
                             <tr>
                               <td>1. </td>
-                              <td>HP Pavilion 15-DK1056WM</td>
+                              <td>{details.name}</td>
                               <td>2</td>
-                              <td>$90.00</td>
-                              <td>$500.00</td>
-                              <td>$1,000.00</td>
+                              <td>${details.gst}</td>
+                              <td>${details.total_order_price}</td>
+                              <td>${details.grand_total}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -106,8 +135,10 @@ const OrderDetails = () => {
                                 </p>
                               </th>
                               <td>
-                                <p className="mb-1">$500.00</p>
-                                <p className="mb-1">$40.00</p>
+                                <p className="mb-1">
+                                  ${details.total_order_price}
+                                </p>
+                                <p className="mb-1">${details.discount}</p>
                               </td>
                               <th className="text-end">
                                 <p className="mb-1">
@@ -121,9 +152,11 @@ const OrderDetails = () => {
                                 </p>
                               </th>
                               <td>
-                                <p className="mb-1">$90.00</p>
-                                <p className="mb-1">$30.00</p>
-                                <p className="mb-1">$580.00</p>
+                                <p className="mb-1">${details.gst}</p>
+                                <p className="mb-1">
+                                  ${details.shipping_charges}
+                                </p>
+                                <p className="mb-1">${details.grand_total}</p>
                               </td>
                             </tr>
                           </tbody>
@@ -141,14 +174,14 @@ const OrderDetails = () => {
                       </h5>
                       <hr className="mb-2" />
                       <p className="mb-1">
-                        <strong>Name: </strong> Alex Newton
+                        <strong>Name: </strong> {details.customer_name}
                       </p>
                       <p className="mb-1">
-                        <strong>Mobile Number: </strong> 213912391293
+                        <strong>Mobile Number: </strong>{" "}
+                        {details.customer_mobile}
                       </p>
                       <p className="mb-1">
-                        <strong>Address: </strong> 15 Peterho Boulevard,
-                        Evanston, South Australia, Australia, 5116
+                        <strong>Address: </strong> {details.address}
                       </p>
                     </div>
                   </div>
@@ -168,15 +201,27 @@ const OrderDetails = () => {
                       </p>
                       <p className="mb-1">
                         <strong>Status: </strong>{" "}
-                        <label className="badge badge-soft-warning">
-                          Pending
-                        </label>
+                        {details.payment_status === "Pending" ? (
+                          <label className="badge badge-soft-warning">
+                            Pending
+                          </label>
+                        ) : (
+                          <label className="badge badge-soft-warning">
+                            Success
+                          </label>
+                        )}
                       </p>
                       <p className="mb-1">
                         <strong>Payment Status: </strong>{" "}
-                        <label className="badge badge-soft-warning">
-                          Pending
-                        </label>
+                        {details.payment_status === "Pending" ? (
+                          <label className="badge badge-soft-warning">
+                            Pending
+                          </label>
+                        ) : (
+                          <label className="badge badge-soft-warning">
+                            Success
+                          </label>
+                        )}
                       </p>
                     </div>
                   </div>

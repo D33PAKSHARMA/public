@@ -414,7 +414,7 @@ function App() {
               element={<Protected Component={ManualOrderInput} />}
             />
             <Route
-              path="/client/orders/manual-order-input/order-details"
+              path="/client/orders/manual-order-input/order-details/:_id"
               element={<Protected Component={OrderDetails} />}
             />
             <Route

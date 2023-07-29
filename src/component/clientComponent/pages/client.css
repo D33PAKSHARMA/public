@@ -18,3 +18,7 @@
 ._margin {
   margin: 2px !important;
 }
+
+.delete_button {
+  cursor: pointer !important;
+}
