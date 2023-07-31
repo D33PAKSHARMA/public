@@ -51,7 +51,8 @@ const Index = () => {
         toast.success("User Login Sucessful");
         navigate("/client/overview");
       } else {
-        console.log(res.data.message);
+        toast.error("Invalid UserName and Password!");
+        // console.log();
       }
     } catch (error) {
       console.log(error);
@@ -146,7 +147,7 @@ const Index = () => {
                     </div>
                   </div>
                   <div className="text-center d-grid">
-                    <button class="btn btn-primary" type="submit">
+                    <button className="btn btn-primary" type="submit">
                       Log In
                     </button>
                     {/* <Link

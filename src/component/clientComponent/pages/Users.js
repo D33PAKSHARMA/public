@@ -56,7 +56,7 @@ const Users = () => {
     // console.log(name, email, phone, password, permission);
   };
 
-  // Get all client users
+  // ...................................Get all client users...................................
   const [users, setUsers] = useState([]);
   const { data } = users; // destructure data from users
   console.log(data);
@@ -74,7 +74,9 @@ const Users = () => {
     fetchAPI();
   }, []);
 
-  // ..................... Update CLient user .......................
+  console.log(data);
+
+  // ..................................... Update CLient user .......................................
 
   const [id, setId] = useState("");
   const [updatename, setUpdatename] = useState("");

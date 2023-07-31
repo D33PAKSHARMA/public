@@ -110,7 +110,7 @@ const Inventory = () => {
                               to="/client/inventory/create-product"
                               className="btn btn-primary mr_2"
                             >
-                              Add New Producttory
+                              Add New Product
                             </Link>
                             <button className="btn btn-primary">
                               Print Report

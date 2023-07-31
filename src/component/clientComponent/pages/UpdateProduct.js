@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import Leftbar from "../component/Leftbar";
 import axios from "axios";
@@ -24,18 +24,39 @@ const UpdateProduct = () => {
   const params = useParams();
   // console.log(params._id);
 
+  const [details, setDetails] = useState({});
+
+  useEffect(() => {
+    const getproductDetails = async () => {
+      try {
+        const response = await authAxios?.get(
+          `/api/product_detail/${params._id}`
+        );
+        // console.log(response.data);
+        setDetails(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getproductDetails();
+  }, []);
+
+  console.log(details);
+
   const [product, setProduct] = useState({
     name: "",
-    discription: "",
+    description: "",
     sku: "",
+    unit: "",
     cost: "",
     salePrice: "",
+    isVariation: "",
     capacity: "",
     stock: "",
     variations: [],
   });
-  const [unit, setUnit] = useState("");
-  const [isVariation, setIsVariation] = useState("");
+  // const [unit, setUnit] = useState("");
+  // const [isVariation, setIsVariation] = useState("");
   const [image, setImage] = useState([]);
 
   const handleImage = (e) => {
@@ -43,11 +64,17 @@ const UpdateProduct = () => {
     setImage(e.target.files[0]);
   };
 
-  // console.log(image);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProduct((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(product);
+    console.log(product);
     // console.log(user.company_id, unit, isVariation);
 
     const callAPI = async () => {
@@ -55,12 +82,12 @@ const UpdateProduct = () => {
         const res = await authAxios.post("/api/update_product", {
           product_id: params._id,
           name: product.name,
-          description: product.discription,
+          description: product.description,
           sku: product.sku,
-          unit: unit,
+          unit: product.unit,
           cost: product.cost,
           sale_price: product.salePrice,
-          is_have_variation: isVariation,
+          is_have_variation: product.isVariation,
           factory_id: user.factory_id,
           capacity: product.capacity,
           stock: product.stock,
@@ -106,10 +133,8 @@ const UpdateProduct = () => {
                             className="form-control product_name"
                             placeholder="Enter Product Name..."
                             name="name"
-                            value={product.name}
-                            onChange={(e) =>
-                              setProduct({ ...product, name: e.target.value })
-                            }
+                            value={details.name}
+                            onChange={handleInputChange}
                           />
                         </div>
                         <div className="col-lg-12 mb-2">
@@ -119,15 +144,10 @@ const UpdateProduct = () => {
                           </label>
                           <textarea
                             className="form-control"
-                            name="discription"
+                            name="description"
                             // defaultValue={""}
-                            value={product.discription}
-                            onChange={(e) =>
-                              setProduct({
-                                ...product,
-                                discription: e.target.value,
-                              })
-                            }
+                            value={details.description}
+                            onChange={handleInputChange}
                           />
                         </div>
                         <div className="col-lg-4 mb-2">
@@ -139,10 +159,8 @@ const UpdateProduct = () => {
                             className="form-control product_sku"
                             placeholder="Enter Product SKU..."
                             name="sku"
-                            value={product.sku}
-                            onChange={(e) =>
-                              setProduct({ ...product, sku: e.target.value })
-                            }
+                            value={details.sku}
+                            onChange={handleInputChange}
                           />
                         </div>
                         <div className="col-lg-4 mb-2">
@@ -152,8 +170,8 @@ const UpdateProduct = () => {
                           <select
                             className="form-select"
                             // name="unit"
-                            value={unit}
-                            onChange={(e) => setUnit(e.target.value)}
+                            value={details.unit}
+                            onChange={handleInputChange}
                           >
                             <option value="KG">KG</option>
                             <option value="GM">GM</option>
@@ -170,10 +188,8 @@ const UpdateProduct = () => {
                             className="form-control product_sku"
                             placeholder="Enter Product SKU..."
                             name="cost"
-                            value={product.cost}
-                            onChange={(e) =>
-                              setProduct({ ...product, cost: e.target.value })
-                            }
+                            value={details.cost}
+                            onChange={handleInputChange}
                           />
                         </div>
                         <div className="col-lg-4 mb-2">
@@ -185,13 +201,8 @@ const UpdateProduct = () => {
                             className="form-control product_sku"
                             placeholder="Enter Product SKU..."
                             name="salePrice"
-                            value={product.salePrice}
-                            onChange={(e) =>
-                              setProduct({
-                                ...product,
-                                salePrice: e.target.value,
-                              })
-                            }
+                            value={details.salePrice}
+                            onChange={handleInputChange}
                           />
                         </div>
                         <div className="col-lg-4 mb-2">
@@ -201,9 +212,9 @@ const UpdateProduct = () => {
                           </label>
                           <select
                             className="form-select"
-                            // name="isVariation"
-                            value={isVariation}
-                            onChange={(e) => setIsVariation(e.target.value)}
+                            name="isVariation"
+                            value={details.isVariation}
+                            onChange={handleInputChange}
                           >
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
@@ -218,13 +229,8 @@ const UpdateProduct = () => {
                             className="form-control product_sku"
                             placeholder="Enter Product SKU..."
                             name="capacity"
-                            value={product.capacity}
-                            onChange={(e) =>
-                              setProduct({
-                                ...product,
-                                capacity: e.target.value,
-                              })
-                            }
+                            value={details.capacity}
+                            onChange={handleInputChange}
                           />
                         </div>
                         <div className="col-lg-4 mb-2">
@@ -236,10 +242,8 @@ const UpdateProduct = () => {
                             className="form-control product_sku"
                             placeholder="Enter Product SKU..."
                             name="stock"
-                            value={product.stock}
-                            onChange={(e) =>
-                              setProduct({ ...product, stock: e.target.value })
-                            }
+                            value={details.stock}
+                            onChange={handleInputChange}
                           />
                         </div>
                         <div className="col-lg-4 mb-2">
@@ -251,13 +255,8 @@ const UpdateProduct = () => {
                             className="form-control product_sku"
                             placeholder="Enter Product SKU..."
                             name="variations"
-                            value={product.variations}
-                            onChange={(e) =>
-                              setProduct({
-                                ...product,
-                                variations: e.target.value,
-                              })
-                            }
+                            value={details.variations}
+                            onChange={handleInputChange}
                           />
                         </div>
 
