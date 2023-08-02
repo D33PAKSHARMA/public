@@ -201,11 +201,11 @@ const UpdateProduct = () => {
                             className="form-control product_sku"
                             placeholder="Enter Product SKU..."
                             name="salePrice"
-                            value={details.salePrice}
+                            value={details.sale_price}
                             onChange={handleInputChange}
                           />
                         </div>
-                        <div className="col-lg-4 mb-2">
+                        {/* <div className="col-lg-4 mb-2">
                           <label>
                             Is Have Variation{" "}
                             <span className="text-danger">*</span>
@@ -219,7 +219,7 @@ const UpdateProduct = () => {
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                           </select>
-                        </div>
+                        </div> */}
                         <div className="col-lg-4 mb-2">
                           <label>
                             Capacity <span className="text-danger">*</span>
@@ -246,7 +246,7 @@ const UpdateProduct = () => {
                             onChange={handleInputChange}
                           />
                         </div>
-                        <div className="col-lg-4 mb-2">
+                        {/* <div className="col-lg-4 mb-2">
                           <label>
                             Variations <span className="text-danger">*</span>
                           </label>
@@ -258,9 +258,9 @@ const UpdateProduct = () => {
                             value={details.variations}
                             onChange={handleInputChange}
                           />
-                        </div>
+                        </div> */}
 
-                        <div className="col-lg-4 mb-3">
+                        {/* <div className="col-lg-4 mb-3">
                           <label>
                             Upload Product Images{" "}
                             <span className="text-danger">*</span>
@@ -271,11 +271,11 @@ const UpdateProduct = () => {
                             value=""
                             onChange={(e) => handleImage(e)}
                           />
-                        </div>
+                        </div> */}
                       </div>
-                      <h5 className="mb-0">Variations</h5>
-                      <hr />
-                      <div className="row">
+                      {/* <h5 className="mb-0">Variations</h5> */}
+                      {/* <hr /> */}
+                      {/* <div className="row">
                         <div className="col-lg-4 mb-3">
                           <label>
                             Attributes <span className="text-danger">*</span>
@@ -349,23 +349,23 @@ const UpdateProduct = () => {
                             </tbody>
                           </table>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-lg-3 mx-auto">
-                          <button
-                            className="btn btn-primary w-100"
-                            type="submit"
-                          >
-                            Submit
-                          </button>
+                    <div className="row">
+                      <div className="col-lg-12">
+                        <div className="card">
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-lg-3 mx-auto">
+                                <button
+                                  className="btn btn-primary w-100"
+                                  type="submit"
+                                >
+                                  Save Changes
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

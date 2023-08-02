@@ -2,10 +2,14 @@ import React from "react";
 import Navbar from "../component/Navbar";
 import Leftbar from "../component/Leftbar";
 import Footer from "../component/Footer";
+import { Helmet } from "react-helmet";
 
 const Messages = () => {
   return (
     <div id="wrapper">
+      <Helmet>
+        <title>Messages</title>
+      </Helmet>
       <Navbar />
       <Leftbar />
 

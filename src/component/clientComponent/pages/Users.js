@@ -5,6 +5,7 @@ import Footer from "../component/Footer";
 import axios from "axios";
 import "./client.css";
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet";
 
 const token = localStorage.getItem("data");
 const authAxios = axios.create({
@@ -17,11 +18,21 @@ const authAxios = axios.create({
 const Users = () => {
   //  ................ Add client user...................
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
+  const [create, setCreate] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
   const [permission, setPermission] = useState([]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setCreate({
+      ...create,
+      [name]: value,
+    });
+  };
 
   const handlecheckBox = (e) => {
     const { value, checked } = e.target;
@@ -39,10 +50,10 @@ const Users = () => {
 
     try {
       const res = await authAxios.post("/api/add_client_user", {
-        first_name: name,
-        email: email,
-        phone: phone,
-        password: password,
+        first_name: create.name,
+        email: create.email,
+        phone: create.phone,
+        password: create.password,
         permissions: JSON.stringify(permission),
       });
       if (res.data.status_code === 200) {
@@ -136,6 +147,9 @@ const Users = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Users</title>
+      </Helmet>
       <div id="wrapper">
         <Navbar />
         <Leftbar />
@@ -297,8 +311,9 @@ const Users = () => {
                     // id="name"
                     required
                     placeholder="Enter Name.."
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    name="name"
+                    value={create.name}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="mb-3 col-lg-6">
@@ -311,8 +326,9 @@ const Users = () => {
                     // id="email1"
                     required
                     placeholder="Enter Email Address.."
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    value={create.email}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="mb-3 col-lg-6">
@@ -325,8 +341,9 @@ const Users = () => {
                     required
                     // id="mobile_number"
                     placeholder="Enter Mobile Number.."
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
+                    name="phone"
+                    value={create.phone}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="mb-3 col-lg-6">
@@ -339,8 +356,9 @@ const Users = () => {
                     required
                     // id="password1"
                     placeholder="Enter your Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    name="password"
+                    value={create.password}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="mb-1 col-lg-12">

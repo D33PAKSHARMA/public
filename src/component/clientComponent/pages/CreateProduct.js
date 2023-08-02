@@ -43,7 +43,7 @@ const CreateProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(product);
+    console.log(product);
     // console.log(user.company_id, unit, isVariation);
 
     const callAPI = async () => {
@@ -55,11 +55,11 @@ const CreateProduct = () => {
           unit: unit,
           cost: product.cost,
           sale_price: product.salePrice,
-          is_have_variation: isVariation,
+          is_have_variation: 0,
           factory_id: user.factory_id,
           capacity: product.capacity,
-          stock: product.stock,
-          variations: product.variations,
+          stock: 0,
+          variations: 0,
           image: JSON.stringify(image),
         });
         if (res.data.status_code === 200) {
@@ -100,6 +100,7 @@ const CreateProduct = () => {
                             type="text"
                             className="form-control product_name"
                             placeholder="Enter Product Name..."
+                            required
                             name="name"
                             value={product.name}
                             onChange={(e) =>
@@ -114,6 +115,7 @@ const CreateProduct = () => {
                           </label>
                           <textarea
                             className="form-control"
+                            required
                             name="discription"
                             // defaultValue={""}
                             value={product.discription}
@@ -133,6 +135,7 @@ const CreateProduct = () => {
                             type="text"
                             className="form-control product_sku"
                             placeholder="Enter Product SKU..."
+                            required
                             name="sku"
                             value={product.sku}
                             onChange={(e) =>
@@ -163,6 +166,7 @@ const CreateProduct = () => {
                           <input
                             type="number"
                             className="form-control product_sku"
+                            required
                             placeholder="Enter Product SKU..."
                             name="cost"
                             value={product.cost}
@@ -178,6 +182,7 @@ const CreateProduct = () => {
                           <input
                             type="number"
                             className="form-control product_sku"
+                            required
                             placeholder="Enter Product SKU..."
                             name="salePrice"
                             value={product.salePrice}
@@ -189,7 +194,7 @@ const CreateProduct = () => {
                             }
                           />
                         </div>
-                        <div className="col-lg-4 mb-2">
+                        {/* <div className="col-lg-4 mb-2">
                           <label>
                             Is Have Variation{" "}
                             <span className="text-danger">*</span>
@@ -203,7 +208,7 @@ const CreateProduct = () => {
                             <option value="Yes">Yes</option>
                             <option value="No">No</option>
                           </select>
-                        </div>
+                        </div> */}
                         <div className="col-lg-4 mb-2">
                           <label>
                             Capacity <span className="text-danger">*</span>
@@ -211,6 +216,7 @@ const CreateProduct = () => {
                           <input
                             type="number"
                             className="form-control product_sku"
+                            required
                             placeholder="Enter Product SKU..."
                             name="capacity"
                             value={product.capacity}
@@ -229,6 +235,7 @@ const CreateProduct = () => {
                           <input
                             type="number"
                             className="form-control product_sku"
+                            required
                             placeholder="Enter Product SKU..."
                             name="stock"
                             value={product.stock}
@@ -237,7 +244,7 @@ const CreateProduct = () => {
                             }
                           />
                         </div>
-                        <div className="col-lg-4 mb-2">
+                        {/* <div className="col-lg-4 mb-2">
                           <label>
                             Variations <span className="text-danger">*</span>
                           </label>
@@ -254,9 +261,9 @@ const CreateProduct = () => {
                               })
                             }
                           />
-                        </div>
+                        </div> */}
 
-                        <div className="col-lg-4 mb-3">
+                        {/* <div className="col-lg-4 mb-3">
                           <label>
                             Upload Product Images{" "}
                             <span className="text-danger">*</span>
@@ -267,11 +274,11 @@ const CreateProduct = () => {
                             value=""
                             onChange={(e) => handleImage(e)}
                           />
-                        </div>
+                        </div> */}
                       </div>
-                      <h5 className="mb-0">Variations</h5>
-                      <hr />
-                      <div className="row">
+                      {/* <h5 className="mb-0">Variations</h5> */}
+                      {/* <hr /> */}
+                      {/* <div className="row">
                         <div className="col-lg-4 mb-3">
                           <label>
                             Attributes <span className="text-danger">*</span>
@@ -345,23 +352,23 @@ const CreateProduct = () => {
                             </tbody>
                           </table>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-lg-12">
-                  <div className="card">
-                    <div className="card-body">
-                      <div className="row">
-                        <div className="col-lg-3 mx-auto">
-                          <button
-                            className="btn btn-primary w-100"
-                            type="submit"
-                          >
-                            Submit
-                          </button>
+                    <div className="row">
+                      <div className="col-lg-12">
+                        <div className="card">
+                          <div className="card-body">
+                            <div className="row">
+                              <div className="col-lg-3 mx-auto">
+                                <button
+                                  className="btn btn-primary w-100"
+                                  type="submit"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -3,10 +3,14 @@ import Navbar from "../component/Navbar";
 import Leftbar from "../component/Leftbar";
 import Footer from "../component/Footer";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const Orders = () => {
   return (
     <div id="wrapper">
+      <Helmet>
+        <title>Orders</title>
+      </Helmet>
       <Navbar />
       <Leftbar />
 

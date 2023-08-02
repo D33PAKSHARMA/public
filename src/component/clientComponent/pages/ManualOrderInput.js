@@ -266,7 +266,7 @@ const ManualOrderInput = () => {
                                   <td>{++count}</td>
                                   <td>
                                     <h5 className="text-primary bold">
-                                      {item._id}
+                                      00{count++}
                                     </h5>
                                   </td>
                                   <td>{item.created_at} AM</td>
@@ -345,6 +345,7 @@ const ManualOrderInput = () => {
                   <input
                     type="text"
                     className="form-control"
+                    required
                     placeholder="Enter Mobile Number..."
                     // name="name"
                     value={order.name}
@@ -360,6 +361,7 @@ const ManualOrderInput = () => {
                   <input
                     type="number"
                     className="form-control"
+                    required
                     placeholder="Enter Mobile Number..."
                     // name="phone"
                     value={order.phone}
@@ -375,6 +377,7 @@ const ManualOrderInput = () => {
                   <input
                     type="text"
                     className="form-control"
+                    required
                     placeholder="Enter Customer Address..."
                     // name="address"
                     value={order.address}
@@ -403,6 +406,7 @@ const ManualOrderInput = () => {
                       type="text"
                       className="form-control"
                       placeholder="Enter Customer Name..."
+                      required
                       name="name"
                       // value={name}
                       onChange={(e) => getID(e)}
@@ -432,6 +436,7 @@ const ManualOrderInput = () => {
                   <input
                     type="number"
                     className="form-control"
+                    required
                     placeholder="Enter Mobile Number..."
                     name="number"
                     value={details.phone}
@@ -445,6 +450,7 @@ const ManualOrderInput = () => {
                   <input
                     type="text"
                     className="form-control"
+                    required
                     placeholder="Enter Customer Address..."
                     name="customer_address"
                     value={order.customer_address}

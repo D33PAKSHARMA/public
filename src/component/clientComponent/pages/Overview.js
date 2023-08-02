@@ -4,6 +4,7 @@ import Leftbar from "../component/Leftbar";
 import Footer from "../component/Footer";
 import jwtDecode from "jwt-decode";
 import "./client.css";
+import { Helmet } from "react-helmet";
 
 const Overview = () => {
   const token = localStorage.getItem("data");
@@ -12,6 +13,9 @@ const Overview = () => {
 
   return (
     <div id="wrapper">
+      <Helmet>
+        <title>Overview</title>
+      </Helmet>
       <Navbar />
       <Leftbar />
 
@@ -30,7 +34,7 @@ const Overview = () => {
                     <i className="mdi mdi-chart-areaspline text-muted float-end text-primary mdi-48px" />
                     <h4 className="mt-0 font-20">Total Sales</h4>
                     <h2 className="text-primary my-3">
-                      $<span data-plugin="counterup">31,570</span>
+                      $<span data-plugin="counterup">0.00</span>
                     </h2>
                     <p className="text-muted mb-0">
                       <span className="badge bg-soft-primary text-primary">
@@ -46,7 +50,7 @@ const Overview = () => {
                     <i className="mdi mdi-wallet text-muted float-end text-primary mdi-48px" />
                     <h4 className="mt-0 font-20">Total Expenses</h4>
                     <h2 className="text-primary my-3">
-                      $<span data-plugin="counterup">55,54,555</span>
+                      $<span data-plugin="counterup">0.00</span>
                     </h2>
                     <p className="text-muted mb-0">
                       <span className="badge bg-soft-primary text-primary">
@@ -62,8 +66,8 @@ const Overview = () => {
                     <div className="row">
                       <div className="col-lg-12">
                         <div className="text-start">
-                          <h4 className="mb-2 font-24">Last Payout</h4>
-                          <p className="mb-2">10 June 2023</p>
+                          <h4 className="mb-2 font-20">Last Payout</h4>
+                          <p className="mb-2">10 July 2023</p>
                           <button className="btn btn-primary waves-effect waves-light btn-sm float-end">
                             See details
                           </button>
@@ -79,8 +83,9 @@ const Overview = () => {
                     <div className="row">
                       <div className="col-lg-12">
                         <div className="text-start">
-                          <h4 className="mb-2 mt-2 font-24">Next Payout</h4>
-                          <p className="mb-4">8 Days to go</p>
+                          <h4 className="mb-2 mt-2 font-20">Next Payout</h4>
+                          <p className="mb-4">10 Days to go</p>
+                          {/* <br /> */}
                         </div>
                       </div>
                     </div>
@@ -132,6 +137,11 @@ const Overview = () => {
                           Previous Year
                         </div>
                       </div>
+                      <img
+                        className="w-100"
+                        src="/assets/images/others/Overview-client.png"
+                        alt=""
+                      />
                     </div>
                   </div>
                 </div>
@@ -142,7 +152,7 @@ const Overview = () => {
                     <div className="widget-rounded-circle card">
                       <div className="card-body">
                         <h4 className="mb-0">Net Position</h4>
-                        <p className="mb-0">4545</p>
+                        <p className="mb-0">0001</p>
                         <button className="btn btn-primary waves-effect waves-light btn-sm float-end">
                           See details
                         </button>
@@ -152,8 +162,8 @@ const Overview = () => {
                   <div className="col-md-6 col-xl-6">
                     <div className="widget-rounded-circle card">
                       <div className="card-body">
-                        <h4 className="mb-0">Reputation Gain</h4>
-                        <p className="mb-0">4545</p>
+                        <h5 className="mb-0">Reputation Gain</h5>
+                        <p className="mb-0">0001</p>
                         <button className="btn btn-primary waves-effect waves-light btn-sm float-end">
                           See details
                         </button>
@@ -168,7 +178,7 @@ const Overview = () => {
                         <textarea
                           placeholder="Have a Suggetions ? Type here..."
                           className="form-control"
-                          rows={13}
+                          rows={6}
                           defaultValue={""}
                         />
                         <button className="btn btn-primary waves-effect waves-light float-end mt-2">

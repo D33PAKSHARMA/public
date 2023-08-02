@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom/dist";
+import { Helmet } from "react-helmet";
 import "./client.css";
 
 const token = localStorage.getItem("data");
@@ -14,7 +15,7 @@ const authAxios = axios.create({
   baseURL: "http://localhost:3004",
   headers: {
     Authorization: `Bearer ${token}`,
-    "Content-Type": "multipart/form-data",
+    "Content-Type": "application/json",
   },
 });
 
@@ -35,29 +36,29 @@ const Inventory = () => {
     setId(productId);
   };
 
-  const handleStock = (e) => {
+  const handleStock = async (e) => {
     e.preventDefault();
-    // console.log(id, stock);
+    console.log(id, stock);
 
-    const callAPI = async () => {
-      try {
-        const res = await authAxios.post("/api/add_stock_history", {
-          product_id: id,
-          reception_date: stock.reception_data,
-          quantity: stock.quantity,
-          total_price: stock.total_price,
-        });
-        if (res.data.status_code === 200) {
-          // console.log(res.data.message);
-          toast.success(res.data.message);
-        } else {
-          console.log(res.data.message);
-        }
-      } catch (error) {
-        console.log(error);
+    try {
+      const res = await authAxios.post("/api/add_stock_history", {
+        product_id: id,
+        reception_date: stock.reception_data,
+        quantity: stock.quantity,
+        total_price: stock.total_price,
+        variations: [
+          { variation_id: "64b00a79a5396afddafce5c1", quantity: "50" },
+          { variation_id: "64b00a79a5396afddafce5c3", quantity: "50" },
+        ],
+      });
+      if (res.data.status_code === 200) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
       }
-    };
-    callAPI();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // ......................Get ALl Inventory........................
@@ -82,9 +83,18 @@ const Inventory = () => {
   // console.log(inventory);
   // console.log(stock_histories);
 
+  const [name, setName] = useState("");
+  const getName = (name) => {
+    console.log(name);
+    setName(name);
+  };
+
   return (
     <>
       <div>
+        <Helmet>
+          <title>Inventory</title>
+        </Helmet>
         <div id="wrapper">
           <Navbar />
           <Leftbar />
@@ -139,12 +149,12 @@ const Inventory = () => {
                                       <tr>
                                         <td>{++count}</td>
                                         <td>
-                                          <img
+                                          {/* <img
                                             src="/assets/images/users/user-2.jpg"
                                             alt="contact-img"
                                             title="contact-img"
                                             className="avatar-sm img-thumbnail"
-                                          />
+                                          /> */}
                                           &nbsp;&nbsp;{item.name}
                                         </td>
                                         <td>${item.cost}</td>
@@ -166,12 +176,12 @@ const Inventory = () => {
                                           </button>
                                         </td>
                                         <td width="180px">
-                                          <Link
+                                          {/* <Link
                                             to={`/client/inventory/product-details/${item._id}`}
                                             className="btn btn-primary btn-sm "
                                           >
                                             <span className="mdi mdi-eye" />
-                                          </Link>
+                                          </Link> */}
                                           <Link
                                             to={`/client/inventory/update-product/${item._id}`}
                                             className="btn btn-primary btn-sm _margin"
@@ -252,6 +262,7 @@ const Inventory = () => {
                                             className="btn btn-primary btn-sm"
                                             data-bs-toggle="modal"
                                             data-bs-target="#order-model"
+                                            onClick={(e) => getName(item.name)}
                                           >
                                             Order More
                                           </button>
@@ -402,6 +413,7 @@ const Inventory = () => {
                       </label>
                       <select
                         className="form-select"
+                        required
                         name="product_id"
                         // value={stock.product_id}
                         onChange={(e) => getinventoryItemId(e)}
@@ -422,6 +434,7 @@ const Inventory = () => {
                       <input
                         type="number"
                         className="form-control"
+                        required
                         placeholder="Enter Total Order Price..."
                         name="total_price"
                         value={stock.total_price}
@@ -437,6 +450,7 @@ const Inventory = () => {
                       <input
                         type="number"
                         className="form-control"
+                        required
                         placeholder="Enter Order Quantity..."
                         name="quantity"
                         value={stock.quantity}
@@ -451,6 +465,7 @@ const Inventory = () => {
                       </label>
                       <input
                         type="date"
+                        required
                         className="form-control"
                         name="reception_data"
                         value={stock.reception_data}

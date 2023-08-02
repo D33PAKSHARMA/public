@@ -33,7 +33,7 @@ const ProductList = () => {
   }, []);
 
   const { data } = products;
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>
@@ -92,12 +92,12 @@ const ProductList = () => {
                                     <tr>
                                       <td>{++count}</td>
                                       <td>
-                                        <img
+                                        {/* <img
                                           src="/assets/images/users/user-2.jpg"
                                           alt="contact-img"
                                           title="contact-img"
                                           className="avatar-sm img-thumbnail"
-                                        />
+                                        /> */}
                                         &nbsp;&nbsp;{item.name}
                                       </td>
                                       <td>${item.cost}</td>
@@ -120,14 +120,14 @@ const ProductList = () => {
                                         </button>
                                       </td>
                                       <td width="180px">
-                                        <Link
+                                        {/* <Link
                                           to="/client/inventory/product-details"
                                           className="btn btn-primary btn-sm"
                                         >
                                           <span className="mdi mdi-eye" />
-                                        </Link>
+                                        </Link> */}
                                         <Link
-                                          to="/client/inventory/product-list"
+                                          to={`/client/inventory/update-product/${item._id}`}
                                           className="btn btn-primary btn-sm _margin"
                                         >
                                           <span className="mdi mdi-square-edit-outline" />

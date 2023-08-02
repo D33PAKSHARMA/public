@@ -1,19 +1,36 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../component/Navbar";
 import Leftbar from "../component/Leftbar";
+import axios from "axios";
+
+const token = localStorage.getItem("data");
+// console.log(token);
+const authAxios = axios.create({
+  baseURL: "http://localhost:3004",
+  headers: {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  },
+});
 
 const StockOrderHistory = () => {
-  // const [stock, setStock] = useState([]);
+  const [inventories, setInventories] = useState({});
 
-  // useEffect(() => {
-  //   const callAPI = async () => {
-  //     try {
-  //       const res = await axios.get("");
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  // });
+  useEffect(() => {
+    const getAllInventory = async () => {
+      try {
+        const response = await authAxios?.get("/api/get_all_inventory");
+        // console.log(response.data);
+        setInventories(response.data.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllInventory();
+  }, []);
+
+  // console.log(inventories);
+  const { stock_histories } = inventories;
 
   return (
     <div id="wrapper">
@@ -50,28 +67,32 @@ const StockOrderHistory = () => {
                               <tr>
                                 <th>SL</th>
                                 <th>Product</th>
-                                <th>Order Date</th>
+                                {/* <th>Order Date</th> */}
                                 <th>Reception Date</th>
                                 <th>Order Qty.</th>
                                 <th>Price</th>
                                 <th>Status</th>
                               </tr>
                             </thead>
-                            <tbody>
-                              <tr>
-                                <td>1.</td>
-                                <td>Running Shoes</td>
-                                <td>16 June 2023</td>
-                                <td>18 June 2023</td>
-                                <td>20</td>
-                                <td>$12,000</td>
-                                <td>
-                                  <label className="badge badge-soft-warning">
-                                    Pending
-                                  </label>
-                                </td>
-                              </tr>
-                            </tbody>
+                            {stock_histories?.map((item, c) => {
+                              return (
+                                <tbody>
+                                  <tr>
+                                    <td>{++c}</td>
+                                    <td>{item.product_name}</td>
+                                    {/* <td>16 June 2023</td> */}
+                                    <td>{item.reception_date}</td>
+                                    <td>{item.quantity}</td>
+                                    <td>${item.total_price}</td>
+                                    <td>
+                                      <label className="badge badge-soft-warning">
+                                        Pending
+                                      </label>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              );
+                            })}
                           </table>
                         </div>
                       </div>
