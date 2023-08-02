@@ -355,7 +355,9 @@ function App() {
           </Route>
 
           <Route>
+            <Route path="/" element={<Index />} />
             <Route path="/client" element={<Index />} />
+
             <Route
               path="/client/overview"
               element={<Protected Component={Overview} />}
